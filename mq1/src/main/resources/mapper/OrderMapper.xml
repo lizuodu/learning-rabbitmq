@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.OrderMapper">
+
+	<resultMap type="com.example.demo.model.Order" id="orderMap">
+		<id column="id" property="id" />
+		<result column="product_code" property="productCode" />
+		<result column="quantity" property="quantity" />
+	</resultMap>
+
+	<sql id="columns">
+		id,
+		product_code,
+		quantity
+	</sql>
+
+	<sql id="whereClause">
+		<if test="id != null">
+			and id = #{id}
+		</if>
+	</sql>
+
+	<update id="update" parameterType="com.example.demo.model.Order">
+		UPDATE t_order
+		<set>
+			<if test="quantity != null">quantity = #{quantity},</if>
+		</set>
+		WHERE id=#{id}
+	</update>
+	
+	<select id="findByPrimaryKey" parameterType="Long"
+		resultMap="orderMap">
+		SELECT 
+		<include refid="columns" />
+		FROM t_order WHERE id = #{id}
+	</select>
+	
+	
+</mapper>
+
+
+
